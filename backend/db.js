@@ -1,24 +1,20 @@
 /* ============================================================
- * SQLite database setup.
- * Uses better-sqlite3 — a file-based DB, no separate server
- * needed. Good fit for a hackathon build; swap for Postgres/
- * MySQL later by re-implementing this module with the same
- * exported function names.
+ * SQLite database setup — uses Node's built-in node:sqlite
+ * module, so there's nothing to compile or install for this.
  * ============================================================ */
 
 const path = require("path");
 const fs = require("fs");
-const Database = require("better-sqlite3");
+const { DatabaseSync } = require("node:sqlite");
 
 const DB_PATH = process.env.DB_PATH || "./data/vittasetu.db";
 
-// Make sure the folder for the DB file exists
 const dir = path.dirname(DB_PATH);
 if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 
-const db = new Database(DB_PATH);
-db.pragma("journal_mode = WAL");
-db.pragma("foreign_keys = ON");
+const db = new DatabaseSync(DB_PATH);
+db.exec("PRAGMA journal_mode = WAL;");
+db.exec("PRAGMA foreign_keys = ON;");
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS users (
