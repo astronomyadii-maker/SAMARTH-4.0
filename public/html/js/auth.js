@@ -7,7 +7,7 @@
 (function () {
   "use strict";
 
-  const API_BASE = location.hostname.endsWith("netlify.app") ? "https://APNA-SERVICE.onrender.com/api" : "/api";
+  const API_BASE = location.hostname.endsWith("netlify.app") ? "https://samarth-4-0-1.onrender.com" : "/api";
 
   /* ---------- Tab switching (Create account / Log in) ---------- */
 

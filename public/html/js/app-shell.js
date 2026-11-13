@@ -4,7 +4,7 @@
  * ============================================================ */
 
 const AppShell = (function () {
-  const API_BASE = location.hostname.endsWith("netlify.app") ? "https://APNA-SERVICE.onrender.com/api" : "/api";
+  const API_BASE = location.hostname.endsWith("netlify.app") ? "https://samarth-4-0-1.onrender.com" : "/api";
 
   const token = localStorage.getItem("vittasetu_token");
   const userJson = localStorage.getItem("vittasetu_user");
