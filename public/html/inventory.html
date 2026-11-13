@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory — VittaSetu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/inventory.css">
+</head>
+<body>
+
+    <!-- Top bar: change the href values to match your real pages -->
+    <header class="topbar">
+        <a class="brand" href="dashboard.html">
+            <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                <circle cx="16" cy="16" r="14.5" stroke="#d9a441" stroke-width="1.5"/>
+                <path d="M10 16.5l4.2 4.2L22 12" stroke="#d9a441" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            VittaSetu
+        </a>
+
+        <nav class="nav" aria-label="Main">
+            <a href="dashboard.html">Passbook</a>
+            <a href="inventory.html" aria-current="page">Inventory</a>
+            <a href="invoice.html">Invoices</a>
+            <a href="loan-calculator.html">Govt. schemes</a>
+            <a href="loan-calculator.html">Loan calculator</a>
+        </nav>
+
+        <div class="account">
+            <div class="account-text">
+                <span class="account-name" id="user-name">Your business</span>
+                <span class="account-type" id="user-type">Business account</span>
+            </div>
+            <button type="button" class="logout" id="logout-btn">Log out</button>
+        </div>
+    </header>
+
+    <main class="page">
+
+        <div class="page-head">
+            <h1>Inventory</h1>
+            <p>Stock goes down by itself when you record a sale in the Passbook.</p>
+        </div>
+
+        <dl class="summary" aria-label="Stock summary">
+            <div class="stat">
+                <dt>Items tracked</dt>
+                <dd id="stat-items">0</dd>
+            </div>
+            <div class="stat stat-low">
+                <dt>Below reorder level</dt>
+                <dd id="stat-low">0</dd>
+            </div>
+            <div class="stat stat-out">
+                <dt>Out of stock</dt>
+                <dd id="stat-out">0</dd>
+            </div>
+            <div class="stat">
+                <dt>Stock value</dt>
+                <dd id="stat-value">₹0</dd>
+            </div>
+        </dl>
+
+        <div class="alert" id="alert-banner" role="status" hidden></div>
+
+        <section class="card" aria-labelledby="stock-title">
+            <div class="card-head">
+                <div>
+                    <h2 id="stock-title">Stock</h2>
+                    <p>Linked to your Passbook sales</p>
+                </div>
+                <div class="tools">
+                    <input type="search" class="search" id="search" placeholder="Search items" aria-label="Search items">
+                    <div class="pills" role="group" aria-label="Filter items">
+                        <button type="button" class="pill" data-filter="all" aria-pressed="true">All</button>
+                        <button type="button" class="pill" data-filter="below" aria-pressed="false">Below reorder</button>
+                        <button type="button" class="pill" data-filter="out" aria-pressed="false">Out of stock</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Item</th>
+                            <th scope="col">In stock</th>
+                            <th scope="col">Reorder at</th>
+                            <th scope="col">Last sale</th>
+                            <th scope="col">Status</th>
+                            <th scope="col"><span class="visually-hidden">Actions</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="stock-body"></tbody>
+                </table>
+            </div>
+
+            <div class="actions">
+                <button type="button" class="btn btn-primary" id="add-btn">+ Add stock entry</button>
+                <button type="button" class="btn btn-secondary" id="adjust-btn">Adjust stock</button>
+                <button type="button" class="btn btn-secondary" id="new-item-btn">+ New item</button>
+            </div>
+        </section>
+
+        <section class="card" aria-labelledby="moves-title">
+            <div class="card-head">
+                <div>
+                    <h2 id="moves-title">Recent stock movements</h2>
+                    <p>Latest 10 sales, restocks and adjustments</p>
+                </div>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Item</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Change</th>
+                            <th scope="col">Stock after</th>
+                            <th scope="col">Note</th>
+                        </tr>
+                    </thead>
+                    <tbody id="moves-body"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <div class="foot">
+            <button type="button" class="link-btn" id="reset-btn">Reset sample data</button>
+        </div>
+    </main>
+
+    <!-- Add stock entry -->
+    <dialog id="add-dialog" aria-labelledby="add-title">
+        <form id="add-form" novalidate>
+            <h2 id="add-title">Add stock entry</h2>
+
+            <label for="add-item">Item</label>
+            <select id="add-item"></select>
+
+            <label for="add-qty">Quantity received</label>
+            <input type="number" id="add-qty" min="1" step="1" inputmode="numeric" placeholder="e.g. 20">
+
+            <label for="add-note">Note (optional)</label>
+            <input type="text" id="add-note" maxlength="120" placeholder="e.g. Bought from supplier">
+
+            <p class="impact" id="add-impact" aria-live="polite"></p>
+            <p class="form-error" id="add-error" role="alert"></p>
+
+            <div class="dialog-actions">
+                <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+                <button type="submit" class="btn btn-primary">Add stock</button>
+            </div>
+        </form>
+    </dialog>
+
+    <!-- Adjust stock -->
+    <dialog id="adjust-dialog" aria-labelledby="adjust-title">
+        <form id="adjust-form" novalidate>
+            <h2 id="adjust-title">Adjust stock</h2>
+
+            <label for="adjust-item">Item</label>
+            <select id="adjust-item"></select>
+
+            <label for="adjust-count">Actual count on the shelf</label>
+            <input type="number" id="adjust-count" min="0" step="1" inputmode="numeric">
+            <p class="hint" id="adjust-current"></p>
+
+            <label for="adjust-note">Reason (optional)</label>
+            <input type="text" id="adjust-note" maxlength="120" placeholder="e.g. Damaged, counted again">
+
+            <p class="impact" id="adjust-impact" aria-live="polite"></p>
+            <p class="form-error" id="adjust-error" role="alert"></p>
+
+            <div class="dialog-actions">
+                <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+                <button type="submit" class="btn btn-primary">Save count</button>
+            </div>
+        </form>
+    </dialog>
+
+    <!-- New item / edit item -->
+    <dialog id="item-dialog" aria-labelledby="item-title">
+        <form id="item-form" novalidate>
+            <h2 id="item-title">New item</h2>
+
+            <label for="item-name">Item name</label>
+            <input type="text" id="item-name" maxlength="80" placeholder="e.g. Sugar 1kg">
+
+            <div id="item-stock-field">
+                <label for="item-stock">Opening stock</label>
+                <input type="number" id="item-stock" min="0" step="1" inputmode="numeric" placeholder="e.g. 25">
+            </div>
+
+            <label for="item-reorder">Reorder level</label>
+            <input type="number" id="item-reorder" min="0" step="1" inputmode="numeric" placeholder="e.g. 10">
+            <p class="hint">You get an alert when stock falls below this number.</p>
+
+            <label for="item-price">Cost per unit (₹, optional)</label>
+            <input type="number" id="item-price" min="0" step="0.01" inputmode="decimal" placeholder="e.g. 48">
+            <p class="hint">Used to work out the stock value.</p>
+
+            <p class="hint" id="item-edit-hint" hidden>To change the count, use Adjust stock.</p>
+            <p class="form-error" id="item-error" role="alert"></p>
+
+            <div class="dialog-actions">
+                <button type="button" class="btn btn-danger" id="item-delete" hidden>Delete item</button>
+                <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+                <button type="submit" class="btn btn-primary">Save item</button>
+            </div>
+        </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="js/inventory.js"></script>
+</body>
+</html>

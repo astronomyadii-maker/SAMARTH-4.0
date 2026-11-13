@@ -1,0 +1,69 @@
+/* VittaSetu — Scheme matcher. Same look as the Passbook and Inventory pages. */
+:root {
+  --navy: #0e1b2e; --green: #2a7a62; --green-deep: #1f6150; --paper: #eaefeb;
+  --ink: #15202e; --muted: #5a677a; --line: #dde4e0;
+  --ok-bg: #e1f0e8; --ok-ink: #1c6a4e; --maybe-bg: #f6ebd0; --maybe-ink: #7a5412;
+  --no-bg: #eceff2; --no-ink: #4a5666;
+  --serif: "Source Serif 4", Georgia, serif;
+  --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 15px/1.5 var(--sans); }
+h1, h2, h3 { font-family: var(--serif); font-weight: 600; margin: 0; }
+:focus-visible { outline: 3px solid #5fb89c; outline-offset: 2px; }
+
+.topbar { background: var(--navy); display: flex; gap: 28px; align-items: center; padding: 14px 32px; flex-wrap: wrap; }
+.brand { color: #fff; text-decoration: none; font: 600 20px var(--serif); }
+.nav { display: flex; gap: 6px; flex-wrap: wrap; }
+.nav a { color: #b8c4d4; text-decoration: none; padding: 6px 10px; border-bottom: 2px solid transparent; font-weight: 500; }
+.nav a:hover { color: #fff; }
+.nav a[aria-current="page"] { color: #fff; border-bottom-color: #d9a441; }
+
+.page { max-width: 1080px; margin: 0 auto; padding: 32px 20px 56px; }
+.head h1 { font-size: 30px; }
+.head p { margin: 4px 0 24px; color: var(--muted); max-width: 62ch; }
+.layout { display: grid; grid-template-columns: 360px 1fr; gap: 20px; align-items: start; }
+
+.card { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 22px; }
+.card h2 { font-size: 20px; margin-bottom: 8px; }
+#match-form { display: grid; gap: 4px; }
+label { font-weight: 600; font-size: 14px; margin-top: 10px; display: block; }
+input[type="number"], select {
+  font: inherit; width: 100%; padding: 9px 12px; border: 1px solid #c9d2cd;
+  border-radius: 8px; background: #fff; color: var(--ink);
+}
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+fieldset { border: 1px solid var(--line); border-radius: 8px; margin: 14px 0 0; padding: 6px 12px 10px; }
+legend { font-weight: 600; font-size: 14px; padding: 0 6px; }
+.check { display: flex; gap: 10px; align-items: flex-start; font-weight: 400; margin-top: 8px; }
+.check input { margin-top: 4px; }
+.form-error { color: #8c2222; font-weight: 600; margin: 8px 0 0; }
+.form-error:empty { display: none; }
+.btn { font: inherit; font-weight: 600; background: var(--green); color: #fff; border: 0; border-radius: 8px; padding: 11px 20px; cursor: pointer; margin-top: 12px; }
+.btn:hover { background: var(--green-deep); }
+
+.results { display: grid; gap: 14px; }
+#results { display: grid; gap: 14px; }
+.summary { font-weight: 600; margin: 0; }
+.scheme h3 { font-size: 19px; }
+.scheme-top { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; flex-wrap: wrap; }
+.badge { padding: 3px 11px; border-radius: 999px; font-size: 12.5px; font-weight: 600; white-space: nowrap; }
+.badge-match, .badge-done { background: var(--ok-bg); color: var(--ok-ink); }
+.badge-maybe { background: var(--maybe-bg); color: var(--maybe-ink); }
+.badge-no { background: var(--no-bg); color: var(--no-ink); }
+.benefit { margin: 8px 0 0; font-weight: 500; }
+.why { margin: 6px 0 0; color: var(--muted); }
+.todo { margin: 10px 0 0; padding-left: 20px; }
+.todo li { margin-top: 3px; }
+.official { display: inline-block; margin-top: 12px; color: var(--green-deep); font-weight: 600; text-underline-offset: 3px; }
+details.others { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 14px 22px; }
+details.others summary { cursor: pointer; font-weight: 600; }
+details.others .scheme { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
+.note { color: var(--muted); font-size: 13.5px; margin: 0; }
+
+@media (max-width: 860px) {
+  .layout { grid-template-columns: 1fr; }
+  .topbar { padding: 12px 16px; }
+  .page { padding: 20px 14px 44px; }
+}

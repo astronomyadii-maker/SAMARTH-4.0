@@ -1,0 +1,24 @@
+CHANGES FOR routes/chat.js  (3 edits)
+
+1) Top of file, after the other requires:
+const { wrap } = require("../utils/wrap");
+
+2) Replace the two  insert.run(...)  lines (and the  const insert = db.prepare(...)  above them) with ONE line:
+await db.query(
+  "INSERT INTO chat_messages (user_id, role, content) VALUES ($1, 'user', $2), ($1, 'assistant', $3)",
+  [req.user.id, message.trim(), reply]
+);
+
+3) Replace the whole GET /history route with:
+router.get("/history", requireAuth, wrap(async (req, res) => {
+  const { rows } = await db.query(
+    "SELECT role, content, created_at FROM chat_messages WHERE user_id = $1 ORDER BY id ASC LIMIT 100",
+    [req.user.id]
+  );
+  res.json({ messages: rows });
+}));
+
+ALSO (optional, from earlier):
+- "HTTP-Referer": process.env.APP_URL || "https://vittasetu.local"
+- after the empty-message check:
+  if (message.length > 1000) return res.status(400).json({ error: "Message is too long." });

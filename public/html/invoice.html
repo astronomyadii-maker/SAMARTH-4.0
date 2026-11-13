@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VittaSetu | GST Invoice Generator</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <h1>VittaSetu</h1>
+      <span>GST Invoice Generator</span>
+        <a class="brand" ></a>
+        <nav class="nav" aria-label="Main">
+            <a href="dashboard.html">Passbook</a>
+            <a href="inventory.html">Inventory</a>
+            <a href="invoice.html" aria-current="page">Invoices</a>
+            <a href="scheme-matcher.html" >Govt. schemes</a>
+            <a href="loan-calculator.html">Loan calculator</a>
+    
+   </nav>
+    </header>
+    <main>
+      <section class="invoice-form">
+        <h2>Create Invoice</h2>
+        <p>
+          Enter the seller, buyer, and item details to generate your invoice.
+        </p>
+
+        <form id="invoiceForm">
+          <h3>Seller Details</h3>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="seller">Business Name *</label>
+              <input id="seller" type="text" required />
+            </div>
+
+            <div class="field">
+              <label for="gstin">Seller GSTIN</label>
+              <input id="gstin" type="text" maxlength="15" />
+            </div>
+
+            <div class="field full">
+              <label for="sellerAddress">Business Address</label>
+              <textarea id="sellerAddress"></textarea>
+            </div>
+          </div>
+
+          <h3>Buyer Details</h3>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="buyer">Buyer Name *</label>
+              <input id="buyer" type="text" required />
+            </div>
+
+            <div class="field">
+              <label for="buyerGstin">Buyer GSTIN</label>
+              <input id="buyerGstin" type="text" maxlength="15" />
+            </div>
+
+            <div class="field">
+              <label for="buyerAddress">Buyer Address</label>
+              <textarea id="buyerAddress"></textarea>
+            </div>
+
+            <div class="field">
+              <label for="state">Buyer State</label>
+              <input id="state" type="text" placeholder="e.g. Madhya Pradesh" />
+            </div>
+
+            <div class="field">
+              <label for="place">Place of Supply</label>
+              <select id="place">
+                <option value="same">Same State (CGST + SGST)</option>
+                <option value="inter">Different State (IGST)</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="date">Invoice Date *</label>
+              <input id="date" type="date" required />
+            </div>
+          </div>
+
+          <h3>Item Details</h3>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="description">Description *</label>
+              <input id="description" type="text" required />
+            </div>
+
+            <div class="field">
+              <label for="hsn">HSN / SAC Code</label>
+              <input id="hsn" type="text" />
+            </div>
+
+            <div class="field">
+              <label for="qty">Quantity</label>
+              <input id="qty" type="number" min="0.01" step="any" value="1" />
+            </div>
+
+            <div class="field">
+              <label for="rate">Unit Price (₹) *</label>
+              <input id="rate" type="number" min="0" step="0.01" required />
+            </div>
+
+            <div class="field">
+              <label for="gstRate">GST Rate</label>
+              <select id="gstRate">
+                <option value="0">0%</option>
+                <option value="5">5%</option>
+                <option value="12">12%</option>
+                <option value="18" selected>18%</option>
+                <option value="28">28%</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="discount">Discount (₹)</label>
+              <input
+                id="discount"
+                type="number"
+                min="0"
+                step="0.01"
+                value="0"
+              />
+            </div>
+          </div>
+
+          <div class="summary">
+            <p>Taxable Value: <strong id="sumTaxable">₹0.00</strong></p>
+            <p id="cgstRow">CGST: <strong id="sumCgst">₹0.00</strong></p>
+            <p id="sgstRow">SGST: <strong id="sumSgst">₹0.00</strong></p>
+            <p id="igstRow" class="hidden">
+              IGST: <strong id="sumIgst">₹0.00</strong>
+            </p>
+            <p class="total">
+              Total Invoice Value: <strong id="sumTotal">₹0.00</strong>
+            </p>
+          </div>
+
+          <div class="actions">
+            <button type="submit">Generate Invoice</button>
+            <button type="button" id="saveDraft">Save Draft</button>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <section id="invoicePreviewPage" class="preview-page" hidden>
+      <div class="preview-header">
+        <div>
+          <h1>Invoice Preview</h1>
+          <p>Review your invoice before downloading.</p>
+        </div>
+
+        <div class="preview-actions">
+          <button type="button" id="backToForm" class="btn btn-secondary">
+            Back to Edit
+          </button>
+
+          <button type="button" id="downloadPdf" class="btn btn-primary">
+            Download PDF
+          </button>
+        </div>
+      </div>
+
+      <div id="invoicePreviewContent"></div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
