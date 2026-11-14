@@ -27,7 +27,7 @@ const PORT = process.env.PORT || 5000;
 app.set("trust proxy", 1);
 
 // The site and the API come from the same address, so CORS only matters for local Live Server testing.
-const allowed = [process.env.FRONTEND_URL, "http://localhost:5500", "http://127.0.0.1:5500"].filter(Boolean);
+const allowed = [process.env.FRONTEND_URL, "http://localhost:5500", "http://127.0.0.1:5500", "https://localhost", "http://localhost", "capacitor://localhost"].filter(Boolean);
 app.use(cors({ origin: allowed }));
 app.use(express.json({ limit: "1mb" }));
 
