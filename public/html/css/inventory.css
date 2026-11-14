@@ -406,3 +406,16 @@ dialog select {
   white-space: nowrap;
   border: 0;
 }
+.page { grid-template-columns: minmax(0, 1fr); }
+.card, .summary, .alert { min-width: 0; }
+.pills { flex-wrap: wrap; }
+
+@media (max-width: 760px) {
+  .stat { padding: 14px 16px; }
+  .stat dd { font-size: 20px; }
+  .tools { width: 100%; }
+  .search { flex: 1 1 100%; }
+  .actions .btn { flex: 1 1 auto; }
+  .alert { font-size: 14px; }
+  dialog form { padding: 20px; }
+}
