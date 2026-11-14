@@ -51,7 +51,15 @@
         <line x1="0" y1="130" x2="400" y2="130"/>
         <line x1="46" y1="0" x2="46" y2="140" class="ledger-lines__margin"/>
       </svg>
-
+<a class="app-download" id="apkDownload" href="downloads/vittasetu.apk" download>
+  <span>Download Android app<small>APK file · Android phones ke liye</small></span>
+</a>
+<script>
+  // App ke andar yeh button chhupa do
+  if (window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform()) {
+    document.getElementById("apkDownload").hidden = true;
+  }
+</script>
       <p class="brand-footnote">Built for Smart India Hackathon — AI-assisted MSME banking</p>
     </div>
   </aside>
