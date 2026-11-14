@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:wght@600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/inventory.css">
+    <link rel="stylesheet" href="css/chatbot.css">
 </head>
 <body>
 
@@ -25,7 +26,7 @@
             <a href="dashboard.html">Passbook</a>
             <a href="inventory.html" aria-current="page">Inventory</a>
             <a href="invoice.html">Invoices</a>
-            <a href="loan-calculator.html">Govt. schemes</a>
+            <a href="scheme-matcher.html">Govt. schemes</a>>
             <a href="loan-calculator.html">Loan calculator</a>
         </nav>
 
@@ -217,6 +218,9 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="js/inventory.js"></script>
+    <div id="chatbotRoot"></div>
+<script src="js/app-shell.js"></script>
+<script src="js/inventory.js"></script>
+<script src="js/chatbot.js"></script>
 </body>
 </html>

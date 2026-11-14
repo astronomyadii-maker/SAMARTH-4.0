@@ -317,16 +317,19 @@
     let filter = "all";
     let query = "";
 
-    /* ---- Account area (hook into your existing login data if you have it) ---- */
+        /* ---- Account area ---- */
     try {
-      const u = JSON.parse(localStorage.getItem("user") || "null");
-      if (u && u.name) $("user-name").textContent = u.name;
+      const u = JSON.parse(localStorage.getItem("vittasetu_user") || "null");
+      if (u) {
+        if (u.businessName) $("user-name").textContent = u.businessName;
+        if (u.accountType) $("user-type").textContent = u.accountType.charAt(0).toUpperCase() + u.accountType.slice(1) + " account";
+      }
     } catch (e) { /* keep the default text */ }
 
     $("logout-btn").addEventListener("click", function () {
-      // Uses your site's own logout() if one is already loaded on this page.
-      if (typeof window.logout === "function") window.logout();
-      else window.location.href = "index.html";
+      localStorage.removeItem("vittasetu_token");
+      localStorage.removeItem("vittasetu_user");
+      window.location.href = "index.html";
     });
 
     /* ---- Toast ---- */

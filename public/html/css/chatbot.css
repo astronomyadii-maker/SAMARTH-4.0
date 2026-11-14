@@ -1,7 +1,12 @@
 /* ============================================================
    Samarth chatbot widget
    ============================================================ */
-
+.samarth-toggle, .samarth-panel {
+  --navy-900: #0F1B2D; --teal-600: #2E7D6B; --teal-700: #256657;
+  --white: #FFFFFF; --paper: #EDF1EE; --line: #D7DCD6; --line-strong: #B9C1BB;
+  --ink-faint: #8A9199; --radius-s: 4px; --radius-m: 6px;
+  --font-display: "Source Serif 4", Georgia, serif;
+} 
 .samarth-toggle {
   position: fixed;
   right: 24px;

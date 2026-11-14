@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>VittaSetu | GST Invoice Generator</title>
     <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/chatbot.css"/>
   </head>
   <body>
     <header class="topbar">
@@ -19,6 +20,13 @@
             <a href="loan-calculator.html">Loan calculator</a>
     
    </nav>
+   <div class="account">
+  <div class="account-text">
+    <span class="account-name" id="navUserName">—</span>
+    <span class="account-type" id="navUserBadge">—</span>
+  </div>
+  <button type="button" class="logout" id="logoutBtn">Log out</button>
+</div>
     </header>
     <main>
       <section class="invoice-form">
@@ -172,6 +180,9 @@
     </section>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script src="js/app.js"></script>
+    <div id="chatbotRoot"></div>
+<script src="js/app-shell.js"></script>
+<script src="js/app.js"></script>
+<script src="js/chatbot.js"></script>
   </body>
 </html>
